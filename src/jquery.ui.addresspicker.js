@@ -41,6 +41,7 @@
             administrative_area_level_2: false,
             administrative_area_level_1: false,
             country: false,
+            country_code: false,
             postal_code: false,
             type: false
 
@@ -130,6 +131,7 @@
       this.administrative_area_level_2 = $(this.options.elements.administrative_area_level_2);
       this.administrative_area_level_1 = $(this.options.elements.administrative_area_level_1);
       this.country  = $(this.options.elements.country);
+      this.country_code  = $(this.options.elements.country_code);
       this.postal_code = $(this.options.elements.postal_code);
       this.type     = $(this.options.elements.type);
       if (this.options.elements.map) {
@@ -163,7 +165,7 @@
 
     _addressParts: {street_number: null, route: null, locality: null, sublocality: null,
                     administrative_area_level_3: null, administrative_area_level_2: null,
-                    administrative_area_level_1: null, country: null, postal_code:null, type: null},
+                    administrative_area_level_1: null, country: null, country_code: null, postal_code:null, type: null},
 
     _updateAddressParts: function(geocodeResult){
 
@@ -261,6 +263,8 @@
         var component = result.address_components[i];
         if (component.types.indexOf(type) !=-1) {
           return component.long_name;
+        } else if (type == 'country_code' && component.types.indexOf('country') !=-1) {
+          return component.short_name.toLowerCase()
         }
       }
       return false;
